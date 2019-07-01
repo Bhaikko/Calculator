@@ -106,6 +106,7 @@ clearAll.addEventListener("click",function()
     outputNumber = 0;
 });
 
+//Functions
 function digitPressed(event)
 { output.innerText += event.target.innerText;}
 
