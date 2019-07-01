@@ -1,0 +1,65 @@
+body 
+{
+    font-size: 40px;
+    font-family: monospace;
+    color: whitesmoke;
+    margin-top: 100px;
+    background-color: rgba(0, 0, 0, 0.9);
+    user-select: none;
+}
+
+#outputBox
+{
+    height: 50px;
+    width: 90%;
+
+    color: whitesmoke;
+    text-align: right;
+    vertical-align: text-bottom;
+
+}
+#expression
+{
+    font-size: 20px;
+}
+
+.calculator
+{
+    margin-top: 100px;
+}
+
+
+.button
+{
+    display: inline-block;
+    margin: 5px;
+    border: 0px;
+
+    height: 90px;
+    width: 175px;
+    background-color: rgba(0, 0, 0, 0.2);
+    text-align: center;
+    padding-top: 15px;
+}
+
+.button:hover 
+{
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+.function
+{
+    font-style: italic;
+}
+
+.digit
+{
+    font-weight: bolder;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.notWorking
+{
+    background-color: red;
+}
+
