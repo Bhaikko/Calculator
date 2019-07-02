@@ -93,6 +93,8 @@ logBaseE.addEventListener("click", functionPressed);
 pi.addEventListener("click", functionPressed);
 factorial.addEventListener("click", functionPressed);
 changeSign.addEventListener("click", functionPressed);
+backSpace.addEventListener("click", function()
+{    output.innerText = output.innerText.slice(0, -1);});
 
 decimal.addEventListener("click", function()
 {   
