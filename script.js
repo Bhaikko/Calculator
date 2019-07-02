@@ -122,17 +122,27 @@ function digitPressed(event)
 function functionPressed(event)
 {
     console.log(event.target.innerText);
-
+    
     bFunctionPressed = true;
 
     if(event.target.innerText == "=")
     {      
-        if(expression.innerText[expression.innerText.length - 1]=="+")
-            outputNumber += parseInt(output.innerText);
-        else if(expression.innerText[expression.innerText.length - 1]=="-")
-            outputNumber -= parseInt(output.innerText);
-        else if(expression.innerText[expression.innerText.length - 1]=="×")
-            outputNumber *= parseInt(output.innerText);    
+        let expressionArray = expression.innerText.split(" ");
+        if(expressionArray[expressionArray.length - 1]=="+")
+            outputNumber += parseFloat(output.innerText);
+        else if(expressionArray[expressionArray.length - 1]=="-")
+            outputNumber -= parseFloat(output.innerText);
+        else if(expressionArray[expressionArray.length - 1]=="×")
+            outputNumber *= parseFloat(output.innerText);    
+        else if(expressionArray[expressionArray.length - 1]=="÷")
+            outputNumber /= parseFloat(output.innerText);  
+        else if(expressionArray[expressionArray.length - 1]=="^")       
+            outputNumber =  Math.pow(parseFloat(expressionArray[expressionArray.length - 2]), parseFloat(output.innerText));     
+        else if(expressionArray[expressionArray.length - 1]=="Mod")       
+            outputNumber %=  parseFloat(output.innerText);     
+        else if(expressionArray[expressionArray.length - 1]=="Exp")       
+            outputNumber = parseFloat(expressionArray[expressionArray.length - 2]) * Math.pow(10, parseFloat(output.innerText));
+        
         output.innerText = outputNumber;
 
         outputNumber = 0;
@@ -141,16 +151,16 @@ function functionPressed(event)
     else if (event.target.innerText == "+")
     {
         expression.innerText += " " + output.innerText + " +";
-        outputNumber = outputNumber + parseInt(output.innerText);
+        outputNumber = outputNumber + parseFloat(output.innerText);
         output.innerText = outputNumber;
     }
     else if (event.target.innerText == "‐")
     {
         expression.innerText += " " + output.innerText + " -";
         if(outputNumber == 0 && expression.innerText.split(" ").length == 2)
-            outputNumber = parseInt(output.innerText);
+            outputNumber = parseFloat(output.innerText);
         else 
-            outputNumber = outputNumber - parseInt(output.innerText); 
+            outputNumber = outputNumber - parseFloat(output.innerText); 
 
         output.innerText = outputNumber;
     }
@@ -159,109 +169,112 @@ function functionPressed(event)
         expression.innerText += " " + output.innerText + " ×";
         if(outputNumber == 0 && expression.innerText.split(" ").length == 2)
             outputNumber = 1;
-        outputNumber = outputNumber * parseInt(output.innerText);
+        outputNumber = outputNumber * parseFloat(output.innerText);
         output.innerText = outputNumber;
     }
-    // else if (event.target.innerText == "÷")
-    // {       
-    //     expression.innerText += " " + output.innerText + " " + event.target.innerText; 
-    //     outputNumber = parseInt(output.innerText) / outputNumber;
-    //     output.innerText = "";
-    // }
-    // else if (event.target.innerText == "x2")
-    // {    
-    //     expression.innerText += " sqr(" + output.innerText + ")" ;    
-    //     outputNumber = Math.pow(parseInt(output.innerText), 2);
-    //     output.innerText = "";
-    // }
-    // else if (event.target.innerText == "x2")
-    // {    
-    //     expression.innerText += " sqr(" + output.innerText + ")" ;    
-    //     outputNumber = Math.pow(parseInt(output.innerText), 2);
-    //     output.innerText = "";
-    // }
-    // else if (event.target.innerText == "xy")
-    // {    
-    //     expression.innerText += output.innerText + " ^ ";    
-    //     outputNumber = Math.pow(parseInt(output.innerText), 2);
-    //     output.innerText = "";
-    // }
-    // else if (event.target.innerText == "sin")
-    // {    
-    //     expression.innerText += " sin(" + output.innerText + ")";    
-    //     outputNumber = Math.sin(parseInt(output.innerText) * 3.14 / 180, 2);
-    //     output.innerText = "";
-    // }
-    // else if (event.target.innerText == "cos")
-    // {    
-    //     expression.innerText += " cos(" + output.innerText + ")";    
-    //     outputNumber = Math.cos(parseInt(output.innerText) * 3.14 / 180, 2);
-    //     output.innerText = "";
-    // }
-    // else if (event.target.innerText == "tan")
-    // {    
-    //     expression.innerText += " tan(" + output.innerText + ")";    
-    //     outputNumber = Math.tan(parseInt(output.innerText) * 3.14 / 180, 2);
-    //     output.innerText = "";
-    // }
-    // else if (event.target.innerText == "x3")
-    // {    
-    //     expression.innerText += " cube(" + output.innerText + ")" ;    
-    //     outputNumber = Math.pow(parseInt(output.innerText), 3);
-    //     output.innerText = "";
-    // }
-    // else if (event.target.innerText == "sin-1")
-    // {    
-    //     expression.innerHTML += " sin<sup>-1</sup>(" + output.innerText + ")";    
-    //     outputNumber = Math.asin(parseInt(output.innerText)) * 180 / 3.141592653589793;
-    //     output.innerText = "";
-    // }
-    // else if (event.target.innerText == "cos-1")
-    // {    
-    //     expression.innerHTML += " sin<sup>-1</sup>(" + output.innerText + ")";    
-    //     outputNumber = Math.acos(parseInt(output.innerText)) * 180 / 3.141592653589793;
-    //     output.innerText = "";
-    // }
-    // else if (event.target.innerText == "tan-1")
-    // {    
-    //     expression.innerHTML += " sin<sup>-1</sup>(" + output.innerText + ")";    
-    //     outputNumber = Math.atan(parseInt(output.innerText)) * 180 / 3.141592653589793;
-    //     output.innerText = "";
-    // }
-    // else if (event.target.innerText == "√")
-    // {    
-    //     expression.innerText += " √(" + output.innerText + ")" ;    
-    //     outputNumber = Math.pow(parseInt(output.innerText), 0.5);
-    //     output.innerText = "";
-    // }
-    // else if (event.target.innerText == "10x")
-    // {    
-    //     expression.innerText += " 10^(" + output.innerText + ")" ;    
-    //     outputNumber = Math.pow(parseInt(output.innerText), 10);
-    //     output.innerText = "";
-    // }
-    // else if (event.target.innerText == "log")
-    // {    
-    //     expression.innerText += " log(" + output.innerText + ")" ;    
-    //     outputNumber = Math.log10(parseInt(output.innerText));
-    //     output.innerText = "";
-    // }
-    // else if (event.target.innerText == "Mod")
-    // {    
-    //     expression.innerText += output.innerText +  " Mod ";    
-    //     outputNumber = outputNumber % parseInt(output.innerText);
-    //     output.innerText = "";
-    // }
-    // else if (event.target.innerText == "ex")
-    // {    
-    //     expression.innerText += " e^(" + output.innerText + ")" ;    
-    //     outputNumber = Math.pow(parseInt(output.innerText), 2.71828);
-    //     output.innerText = "";
-    // }
+    else if (event.target.innerText == "÷")
+    {       
+        expression.innerText += " " + output.innerText + " ÷";
+        outputNumber = outputNumber + parseFloat(output.innerText);
+        output.innerText = outputNumber;
+    }
+    else if (event.target.innerText == "x2")
+    {    
+        expression.innerText += " sqr(" + output.innerText + ")";
+        outputNumber = outputNumber;
+        output.innerText = outputNumber;  
+    }
+    else if (event.target.innerText == "xy")
+    {    
+        expression.innerText += " " + output.innerText + " ^";    
+        outputNumber = parseFloat(output.innerText);
+        output.innerText = outputNumber;
+    }
+    else if (event.target.innerText == "sin")
+    {    
+        expression.innerText += " sin(" + output.innerText + ")";    
+        outputNumber = Math.sin(parseFloat(output.innerText) * Math.PI / 180);
+        output.innerText = outputNumber;
+    }
+    else if (event.target.innerText == "cos")
+    {    
+        expression.innerText += " cos(" + output.innerText + ")";    
+        if(output.innerText == "90" || output.innerText == "270")
+            outputNumber = 0;
+        else 
+            outputNumber = Math.cos(parseFloat(output.innerText) * Math.PI / 180);
+        output.innerText = outputNumber;
+    }
+    else if (event.target.innerText == "tan")
+    {    
+        expression.innerText += " tan(" + output.innerText + ")";    
+        outputNumber = Math.tan(parseFloat(output.innerText) * Math.PI / 180, 2);
+        output.innerText = outputNumber;
+    }
+    else if (event.target.innerText == "x3")
+    {    
+        expression.innerText += " cube(" + output.innerText + ")" ;    
+        outputNumber = Math.pow(parseFloat(output.innerText), 3);
+        output.innerText = outputNumber;
+    }
+    else if (event.target.innerText == "sin-1")
+    {    
+        expression.innerHTML += " sin<sup>-1</sup>(" + output.innerText + ")";    
+        outputNumber = Math.asin(parseFloat(output.innerText)) * 180 / Math.PI;
+        output.innerText = outputNumber;
+    }
+    else if (event.target.innerText == "cos-1")
+    {    
+        expression.innerHTML += " sin<sup>-1</sup>(" + output.innerText + ")";    
+        outputNumber = Math.acos(parseFloat(output.innerText)) * 180 / Math.PI;
+        output.innerText = outputNumber;
+    }
+    else if (event.target.innerText == "tan-1")
+    {    
+        expression.innerHTML += " sin<sup>-1</sup>(" + output.innerText + ")";    
+        outputNumber = Math.atan(parseFloat(output.innerText)) * 180 / Math.PI;
+        output.innerText = outputNumber;
+    }
+    else if (event.target.innerText == "√")
+    {    
+        expression.innerText += " √(" + output.innerText + ")" ;    
+        outputNumber = Math.pow(parseFloat(output.innerText), 0.5);
+        output.innerText = outputNumber;
+    }
+    else if (event.target.innerText == "10x")
+    {    
+        expression.innerText += " 10^(" + output.innerText + ")" ;
+        outputNumber = Math.pow(10, parseFloat(output.innerText));
+        output.innerText = outputNumber;
+    }
+    else if (event.target.innerText == "log")
+    {    
+        expression.innerText += " log(" + output.innerText + ")" ;    
+        outputNumber = Math.log10(parseFloat(output.innerText));
+        output.innerText = outputNumber;
+    }
+    else if (event.target.innerText == "Exp")
+    {    
+        expression.innerText += " " + output.innerText + ".e+" ;    
+        outputNumber = parseFloat(output.innerText);
+        output.innerText = outputNumber;
+    }
+    else if (event.target.innerText == "Mod")
+    {    
+        expression.innerText += " " + output.innerText + " Mod ";    
+        outputNumber = parseFloat(output.innerText);
+        output.innerText = outputNumber;
+    }
+    else if (event.target.innerText == "ex")
+    {    
+        expression.innerText += " e^(" + output.innerText + ")" ;    
+        outputNumber = Math.pow(parseFloat(output.innerText), 2.71828);
+        output.innerText = outputNumber;
+    }
     // else if (event.target.innerText == "ln")
     // {    
     //     expression.innerText += " ln(" + output.innerText + ")" ;    
-    //     outputNumber = Math.log(parseInt(output.innerText));
+    //     outputNumber = Math.log(parseFloat(output.innerText));
     //     output.innerText = "";
     // }
     // else if (event.target.innerText == "π")
@@ -273,7 +286,7 @@ function functionPressed(event)
     // else if (event.target.innerText == "n!")
     // {    
     //     expression.innerText += output.innerText + "!" ;    
-    //     outputNumber = calculateFactorial(parseInt(output.innerText));
+    //     outputNumber = calculateFactorial(parseFloat(output.innerText));
     //     output.innerText = "";
     // } 
     // else if (event.target.innerText == "±")
@@ -299,3 +312,4 @@ function calculateFactorial(number)
 
     return smallFactorial * number;
 }
+
