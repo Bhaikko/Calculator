@@ -1,4 +1,5 @@
-var outputNumber = 0;
+let outputNumber = 0;
+let bFunctionPressed = false;
 
 let outputBox = document.getElementById("outputBox");
 let expression = document.getElementById("expression");
@@ -96,9 +97,8 @@ decimal.addEventListener("click", functionPressed);
 
 //Clear Handler TODO Need To Handle Backspace Button
 clearOutput.addEventListener("click", function()
-{ 
-    output.innerText=""; 
-});
+{    output.innerText="";});
+
 clearAll.addEventListener("click",function()
 { 
     output.innerText=""; 
@@ -106,158 +106,183 @@ clearAll.addEventListener("click",function()
     outputNumber = 0;
 });
 
+
 //Functions
 function digitPressed(event)
-{ output.innerText += event.target.innerText;}
+{
+    if(bFunctionPressed)
+    {
+        output.innerText = "";
+        bFunctionPressed = false;
+    }
+    output.innerText += event.target.innerText;
+        
+}
 
 function functionPressed(event)
 {
     console.log(event.target.innerText);
 
-    if (event.target.innerText == "+")
+    bFunctionPressed = true;
+
+    if(event.target.innerText == "=")
+    {      
+        if(expression.innerText[expression.innerText.length - 1]=="+")
+            outputNumber += parseInt(output.innerText);
+        else if(expression.innerText[expression.innerText.length - 1]=="-")
+            outputNumber -= parseInt(output.innerText);
+        else if(expression.innerText[expression.innerText.length - 1]=="×")
+            outputNumber *= parseInt(output.innerText);    
+        output.innerText = outputNumber;
+
+        outputNumber = 0;
+        expression.innerText = "";
+    }
+    else if (event.target.innerText == "+")
     {
-        expression.innerText += " " + output.innerText + " " + event.target.innerText;
+        expression.innerText += " " + output.innerText + " +";
         outputNumber = outputNumber + parseInt(output.innerText);
-        output.innerText = "";
+        output.innerText = outputNumber;
     }
     else if (event.target.innerText == "‐")
     {
-        expression.innerText += " " + output.innerText + " " + event.target.innerText;
-        outputNumber = parseInt(output.innerText) - outputNumber;
-        output.innerText = "";
+        expression.innerText += " " + output.innerText + " -";
+        if(outputNumber == 0 && expression.innerText.split(" ").length == 2)
+            outputNumber = parseInt(output.innerText);
+        else 
+            outputNumber = outputNumber - parseInt(output.innerText); 
+
+        output.innerText = outputNumber;
     }
     else if (event.target.innerText == "×")
     { 
-       expression.innerText += " " + output.innerText + " " + event.target.innerText;
-       outputNumber = outputNumber * parseInt(output.innerText);
-       output.innerText = "";
-    }
-    else if (event.target.innerText == "÷")
-    {       
-        expression.innerText += " " + output.innerText + " " + event.target.innerText; 
-        outputNumber = parseInt(output.innerText) / outputNumber;
-        output.innerText = "";
-    }
-    else if (event.target.innerText == "x2")
-    {    
-        expression.innerText += " sqr(" + output.innerText + ")" ;    
-        outputNumber = Math.pow(parseInt(output.innerText), 2);
-        output.innerText = "";
-    }
-    else if (event.target.innerText == "x2")
-    {    
-        expression.innerText += " sqr(" + output.innerText + ")" ;    
-        outputNumber = Math.pow(parseInt(output.innerText), 2);
-        output.innerText = "";
-    }
-    else if (event.target.innerText == "xy")
-    {    
-        expression.innerText += output.innerText + " ^ ";    
-        outputNumber = Math.pow(parseInt(output.innerText), 2);
-        output.innerText = "";
-    }
-    else if (event.target.innerText == "sin")
-    {    
-        expression.innerText += " sin(" + output.innerText + ")";    
-        outputNumber = Math.sin(parseInt(output.innerText) * 3.14 / 180, 2);
-        output.innerText = "";
-    }
-    else if (event.target.innerText == "cos")
-    {    
-        expression.innerText += " cos(" + output.innerText + ")";    
-        outputNumber = Math.cos(parseInt(output.innerText) * 3.14 / 180, 2);
-        output.innerText = "";
-    }
-    else if (event.target.innerText == "tan")
-    {    
-        expression.innerText += " tan(" + output.innerText + ")";    
-        outputNumber = Math.tan(parseInt(output.innerText) * 3.14 / 180, 2);
-        output.innerText = "";
-    }
-    else if (event.target.innerText == "x3")
-    {    
-        expression.innerText += " cube(" + output.innerText + ")" ;    
-        outputNumber = Math.pow(parseInt(output.innerText), 3);
-        output.innerText = "";
-    }
-    else if (event.target.innerText == "sin-1")
-    {    
-        expression.innerHTML += " sin<sup>-1</sup>(" + output.innerText + ")";    
-        outputNumber = Math.asin(parseInt(output.innerText)) * 180 / 3.141592653589793;
-        output.innerText = "";
-    }
-    else if (event.target.innerText == "cos-1")
-    {    
-        expression.innerHTML += " sin<sup>-1</sup>(" + output.innerText + ")";    
-        outputNumber = Math.acos(parseInt(output.innerText)) * 180 / 3.141592653589793;
-        output.innerText = "";
-    }
-    else if (event.target.innerText == "tan-1")
-    {    
-        expression.innerHTML += " sin<sup>-1</sup>(" + output.innerText + ")";    
-        outputNumber = Math.atan(parseInt(output.innerText)) * 180 / 3.141592653589793;
-        output.innerText = "";
-    }
-    else if (event.target.innerText == "√")
-    {    
-        expression.innerText += " √(" + output.innerText + ")" ;    
-        outputNumber = Math.pow(parseInt(output.innerText), 0.5);
-        output.innerText = "";
-    }
-    else if (event.target.innerText == "10x")
-    {    
-        expression.innerText += " 10^(" + output.innerText + ")" ;    
-        outputNumber = Math.pow(parseInt(output.innerText), 10);
-        output.innerText = "";
-    }
-    else if (event.target.innerText == "log")
-    {    
-        expression.innerText += " log(" + output.innerText + ")" ;    
-        outputNumber = Math.log10(parseInt(output.innerText));
-        output.innerText = "";
-    }
-    else if (event.target.innerText == "Mod")
-    {    
-        expression.innerText += output.innerText +  " Mod ";    
-        outputNumber = outputNumber % parseInt(output.innerText);
-        output.innerText = "";
-    }
-    else if (event.target.innerText == "ex")
-    {    
-        expression.innerText += " e^(" + output.innerText + ")" ;    
-        outputNumber = Math.pow(parseInt(output.innerText), 2.71828);
-        output.innerText = "";
-    }
-    else if (event.target.innerText == "ln")
-    {    
-        expression.innerText += " ln(" + output.innerText + ")" ;    
-        outputNumber = Math.log(parseInt(output.innerText));
-        output.innerText = "";
-    }
-    else if (event.target.innerText == "π")
-    {    
-        expression.innerText += " π "  ;    
-        outputNumber = 3.141592653589793;
-        output.innerText = "";
-    }
-    else if (event.target.innerText == "n!")
-    {    
-        expression.innerText += output.innerText + "!" ;    
-        outputNumber = calculateFactorial(parseInt(output.innerText));
-        output.innerText = "";
-    } 
-    else if (event.target.innerText == "±")
-    {    
-        expression.innerText += "-" + output.innerText;    
-        outputNumber = -1 * outputNumber;
-        output.innerText = "";
-    }    
-    else if(event.target.innerText == "=")
-    {      
+        expression.innerText += " " + output.innerText + " ×";
+        if(outputNumber == 0 && expression.innerText.split(" ").length == 2)
+            outputNumber = 1;
+        outputNumber = outputNumber * parseInt(output.innerText);
         output.innerText = outputNumber;
-        expression.innerText = "";
-        outputNumber = 0;
     }
+    // else if (event.target.innerText == "÷")
+    // {       
+    //     expression.innerText += " " + output.innerText + " " + event.target.innerText; 
+    //     outputNumber = parseInt(output.innerText) / outputNumber;
+    //     output.innerText = "";
+    // }
+    // else if (event.target.innerText == "x2")
+    // {    
+    //     expression.innerText += " sqr(" + output.innerText + ")" ;    
+    //     outputNumber = Math.pow(parseInt(output.innerText), 2);
+    //     output.innerText = "";
+    // }
+    // else if (event.target.innerText == "x2")
+    // {    
+    //     expression.innerText += " sqr(" + output.innerText + ")" ;    
+    //     outputNumber = Math.pow(parseInt(output.innerText), 2);
+    //     output.innerText = "";
+    // }
+    // else if (event.target.innerText == "xy")
+    // {    
+    //     expression.innerText += output.innerText + " ^ ";    
+    //     outputNumber = Math.pow(parseInt(output.innerText), 2);
+    //     output.innerText = "";
+    // }
+    // else if (event.target.innerText == "sin")
+    // {    
+    //     expression.innerText += " sin(" + output.innerText + ")";    
+    //     outputNumber = Math.sin(parseInt(output.innerText) * 3.14 / 180, 2);
+    //     output.innerText = "";
+    // }
+    // else if (event.target.innerText == "cos")
+    // {    
+    //     expression.innerText += " cos(" + output.innerText + ")";    
+    //     outputNumber = Math.cos(parseInt(output.innerText) * 3.14 / 180, 2);
+    //     output.innerText = "";
+    // }
+    // else if (event.target.innerText == "tan")
+    // {    
+    //     expression.innerText += " tan(" + output.innerText + ")";    
+    //     outputNumber = Math.tan(parseInt(output.innerText) * 3.14 / 180, 2);
+    //     output.innerText = "";
+    // }
+    // else if (event.target.innerText == "x3")
+    // {    
+    //     expression.innerText += " cube(" + output.innerText + ")" ;    
+    //     outputNumber = Math.pow(parseInt(output.innerText), 3);
+    //     output.innerText = "";
+    // }
+    // else if (event.target.innerText == "sin-1")
+    // {    
+    //     expression.innerHTML += " sin<sup>-1</sup>(" + output.innerText + ")";    
+    //     outputNumber = Math.asin(parseInt(output.innerText)) * 180 / 3.141592653589793;
+    //     output.innerText = "";
+    // }
+    // else if (event.target.innerText == "cos-1")
+    // {    
+    //     expression.innerHTML += " sin<sup>-1</sup>(" + output.innerText + ")";    
+    //     outputNumber = Math.acos(parseInt(output.innerText)) * 180 / 3.141592653589793;
+    //     output.innerText = "";
+    // }
+    // else if (event.target.innerText == "tan-1")
+    // {    
+    //     expression.innerHTML += " sin<sup>-1</sup>(" + output.innerText + ")";    
+    //     outputNumber = Math.atan(parseInt(output.innerText)) * 180 / 3.141592653589793;
+    //     output.innerText = "";
+    // }
+    // else if (event.target.innerText == "√")
+    // {    
+    //     expression.innerText += " √(" + output.innerText + ")" ;    
+    //     outputNumber = Math.pow(parseInt(output.innerText), 0.5);
+    //     output.innerText = "";
+    // }
+    // else if (event.target.innerText == "10x")
+    // {    
+    //     expression.innerText += " 10^(" + output.innerText + ")" ;    
+    //     outputNumber = Math.pow(parseInt(output.innerText), 10);
+    //     output.innerText = "";
+    // }
+    // else if (event.target.innerText == "log")
+    // {    
+    //     expression.innerText += " log(" + output.innerText + ")" ;    
+    //     outputNumber = Math.log10(parseInt(output.innerText));
+    //     output.innerText = "";
+    // }
+    // else if (event.target.innerText == "Mod")
+    // {    
+    //     expression.innerText += output.innerText +  " Mod ";    
+    //     outputNumber = outputNumber % parseInt(output.innerText);
+    //     output.innerText = "";
+    // }
+    // else if (event.target.innerText == "ex")
+    // {    
+    //     expression.innerText += " e^(" + output.innerText + ")" ;    
+    //     outputNumber = Math.pow(parseInt(output.innerText), 2.71828);
+    //     output.innerText = "";
+    // }
+    // else if (event.target.innerText == "ln")
+    // {    
+    //     expression.innerText += " ln(" + output.innerText + ")" ;    
+    //     outputNumber = Math.log(parseInt(output.innerText));
+    //     output.innerText = "";
+    // }
+    // else if (event.target.innerText == "π")
+    // {    
+    //     expression.innerText += " π "  ;    
+    //     outputNumber = 3.141592653589793;
+    //     output.innerText = "";
+    // }
+    // else if (event.target.innerText == "n!")
+    // {    
+    //     expression.innerText += output.innerText + "!" ;    
+    //     outputNumber = calculateFactorial(parseInt(output.innerText));
+    //     output.innerText = "";
+    // } 
+    // else if (event.target.innerText == "±")
+    // {    
+    //     expression.innerText += "-" + output.innerText;    
+    //     outputNumber = -1 * outputNumber;
+    //     output.innerText = "";
+    // }    
+    
     
 
     console.log(outputNumber);

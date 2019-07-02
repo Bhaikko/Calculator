@@ -11,7 +11,7 @@ body
 
 #outputBox
 {
-    height: 75px;
+    height: 80px;
     width: 1630px;
 
     color: whitesmoke;
@@ -26,7 +26,7 @@ body
 .calculator
 {
     margin-top: 100px;
-    width: 2000px;
+    width: 1900px;
     height: 100px;
 
 }
@@ -43,7 +43,7 @@ body
     padding-top: 17px;
 
     margin-left: -15px;
-    margin-bottom: 0px;
+    margin-bottom: -5px;
 }
 
 .button:hover 
