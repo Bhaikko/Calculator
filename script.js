@@ -44,8 +44,8 @@ let add = document.getElementById("add");
 
 let pi = document.getElementById("pi");
 let factorial = document.getElementById("factorial");
-let leftBracket = document.getElementById("leftBracket");
-let rightBracket = document.getElementById("rightBracket");
+// let leftBracket = document.getElementById("leftBracket");
+// let rightBracket = document.getElementById("rightBracket");
 let changeSign = document.getElementById("changeSign");
 let digit0 = document.getElementById("digit0");
 let decimal = document.getElementById("decimal");
@@ -93,7 +93,14 @@ logBaseE.addEventListener("click", functionPressed);
 pi.addEventListener("click", functionPressed);
 factorial.addEventListener("click", functionPressed);
 changeSign.addEventListener("click", functionPressed);
-decimal.addEventListener("click", functionPressed);
+
+decimal.addEventListener("click", function()
+{   
+    if(output.innerText.includes("."))
+        return;
+
+    output.innerText += ".";
+});
 
 //Clear Handler TODO Need To Handle Backspace Button
 clearOutput.addEventListener("click", function()
@@ -116,7 +123,7 @@ function digitPressed(event)
         bFunctionPressed = false;
     }
     output.innerText += event.target.innerText;
-        
+     
 }
 
 function functionPressed(event)
@@ -128,6 +135,7 @@ function functionPressed(event)
     if(event.target.innerText == "=")
     {      
         let expressionArray = expression.innerText.split(" ");
+
         if(expressionArray[expressionArray.length - 1]=="+")
             outputNumber += parseFloat(output.innerText);
         else if(expressionArray[expressionArray.length - 1]=="-")
@@ -140,9 +148,9 @@ function functionPressed(event)
             outputNumber =  Math.pow(parseFloat(expressionArray[expressionArray.length - 2]), parseFloat(output.innerText));     
         else if(expressionArray[expressionArray.length - 1]=="Mod")       
             outputNumber %=  parseFloat(output.innerText);     
-        else if(expressionArray[expressionArray.length - 1]=="Exp")       
-            outputNumber = parseFloat(expressionArray[expressionArray.length - 2]) * Math.pow(10, parseFloat(output.innerText));
-        
+        else if((expressionArray[expressionArray.length - 1]).includes(".e+"))    
+            outputNumber = parseFloat((expressionArray[expressionArray.length - 1]).split(".")[0]) * Math.pow(10, parseFloat(output.innerText));
+
         output.innerText = outputNumber;
 
         outputNumber = 0;
@@ -265,39 +273,40 @@ function functionPressed(event)
         outputNumber = parseFloat(output.innerText);
         output.innerText = outputNumber;
     }
+    else if (event.target.innerText == "1/x")
+    {    
+        expression.innerText += "1/(" + output.innerText + ")";    
+        outputNumber = 1 / parseFloat(output.innerText);
+        output.innerText = outputNumber;
+    }
     else if (event.target.innerText == "ex")
     {    
         expression.innerText += " e^(" + output.innerText + ")" ;    
-        outputNumber = Math.pow(parseFloat(output.innerText), 2.71828);
+        outputNumber = Math.exp(parseFloat(output.innerText));
         output.innerText = outputNumber;
     }
-    // else if (event.target.innerText == "ln")
-    // {    
-    //     expression.innerText += " ln(" + output.innerText + ")" ;    
-    //     outputNumber = Math.log(parseFloat(output.innerText));
-    //     output.innerText = "";
-    // }
-    // else if (event.target.innerText == "π")
-    // {    
-    //     expression.innerText += " π "  ;    
-    //     outputNumber = 3.141592653589793;
-    //     output.innerText = "";
-    // }
-    // else if (event.target.innerText == "n!")
-    // {    
-    //     expression.innerText += output.innerText + "!" ;    
-    //     outputNumber = calculateFactorial(parseFloat(output.innerText));
-    //     output.innerText = "";
-    // } 
-    // else if (event.target.innerText == "±")
-    // {    
-    //     expression.innerText += "-" + output.innerText;    
-    //     outputNumber = -1 * outputNumber;
-    //     output.innerText = "";
-    // }    
-    
-    
-
+    else if (event.target.innerText == "ln")
+    {    
+        expression.innerText += " ln(" + output.innerText + ")" ;    
+        outputNumber = Math.log(parseFloat(output.innerText));
+        output.innerText = outputNumber;
+    }
+    else if (event.target.innerText == "π")
+    {    
+        expression.innerText += " π "  ;    
+        outputNumber = Math.PI;
+        output.innerText = outputNumber;
+    }
+    else if (event.target.innerText == "n!")
+    {    
+        expression.innerText += output.innerText + "!" ;    
+        outputNumber = calculateFactorial(parseFloat(output.innerText));
+        output.innerText = outputNumber;
+    } 
+    else if (event.target.innerText == "±")
+    {    
+        output.innerText = -1 * parseFloat(output.innerText);
+    }    
     console.log(outputNumber);
 }
 
